@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rate Limit Status</title>
+</head>
+<body>
+  <h1>Rate Limit Status</h1>
+  <p>Current request count: <%= currentCount %></p>
+  <% if (windowMsRemaining > 0) { %>
+    <p>Time remaining until window reset: <%= windowMsRemaining / 1000 %> seconds</p>
+  <% } else { %>
+    <p>Window reset.</p>
+  <% } %>
+  <p>Global rate limit:</p>
+  <ul>
+    <li>Window: <%= windowMs / 1000 %> seconds</li>
+    <li>Max requests per window: <%= max %></li>
+  </ul>
+</body>
+</html>
