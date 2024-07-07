@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from "express";
+import ms from "ms";
 
 const route = express.Router();
 
@@ -26,6 +27,17 @@ route.get("/health", function health(req: Request, res: Response) {
   };
 
   res.status(200).json(responseData);
+});
+
+route.get("/rate-limit", function rateLimit(req: Request, res: Response) {
+  const rateLimitData = (req as any).rateLimit || {}; // Get data if rate-limited
+
+  res.render("rate-limit.ejs", {
+    currentCount: rateLimitData.current,
+    windowMsRemaining: rateLimitData.resetTime - Date.now(),
+    windowMs: ms("15m"),
+    max: 100,
+  });
 });
 
 export default route;
