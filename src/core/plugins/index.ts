@@ -9,3 +9,5 @@ export { default as staticPath } from "./staticPath";
 export { default as parameterPollution } from "./parameterPollution";
 export { default as userAgent } from "./userAgent";
 export { default as rateLimit } from "./rateLimit";
+export { default as requestIp } from "./requestIp";
+export { default as authExtractor } from "./authExtractor";
