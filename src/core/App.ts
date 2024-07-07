@@ -5,12 +5,14 @@ import express from "express";
 import routes from "@routes/index";
 
 import {
+  authExtractor,
   compression,
   cors,
   helmet,
   json,
   parameterPollution,
   rateLimit,
+  requestIp,
   staticPath,
   urlencoded,
   userAgent,
@@ -44,7 +46,9 @@ export default class App {
     this.APP.use(urlencoded);
     this.APP.use(staticPath);
     this.APP.use(parameterPollution);
+    this.APP.use(requestIp);
     this.APP.use(userAgent);
+    this.APP.use(authExtractor);
     this.APP.use(rateLimit);
   }
 
