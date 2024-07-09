@@ -1,4 +1,33 @@
 import App from "../App";
+import db from "@/database";
+import { env } from "@/config/env";
+
+jest.mock<typeof import("@config/env")>("@/config/env", () => {
+  // Require the original module to not be mocked...
+  const originalModule =
+    jest.requireActual<typeof import("@/config/env")>("@/config/env");
+
+  return {
+    ...originalModule,
+    __esModule: true,
+    env: {
+      ...originalModule.env,
+      SEQUELIZE_CONNECTION: "postgres",
+      SEQUELIZE_DATABASE: "ebelize",
+      SEQUELIZE_SYNC: false,
+    },
+  };
+});
+
+jest.mock("@/database", () => ({
+  __esModule: true,
+  default: {
+    sequelize: {
+      authenticate: jest.fn().mockResolvedValue(true),
+      sync: jest.fn().mockResolvedValue(true),
+    },
+  },
+}));
 
 jest.mock("express", () => {
   const APP = { use: jest.fn(), listen: jest.fn() };
@@ -93,5 +122,24 @@ describe("App", function () {
 
     app.listen();
     expect(app.__app.listen).toHaveBeenCalledWith(2056, expect.any(Function));
+  });
+
+  it("should initialize database", async function () {
+    jest.spyOn(db.sequelize, "authenticate").mockClear();
+    jest.spyOn(db.sequelize, "sync").mockClear();
+
+    new App();
+    expect(db.sequelize.authenticate).toHaveBeenCalled();
+    expect(db.sequelize.sync).not.toHaveBeenCalled();
+  });
+
+  it("should sync database", async function () {
+    jest.spyOn(db.sequelize, "authenticate").mockClear();
+    jest.spyOn(db.sequelize, "sync").mockClear();
+
+    jest.replaceProperty(env, "SEQUELIZE_SYNC", true);
+    await _app.__initDatabase();
+
+    expect(db.sequelize.sync).toHaveBeenCalled();
   });
 });
