@@ -3,6 +3,7 @@ export default {
   preset: "ts-jest",
   testEnvironment: "node",
   setupFiles: ["<rootDir>/src/__test__/jest.setup.ts"],
+  extensionsToTreatAsEsm: [".ts"],
   transform: {
     "^.+\\.ts$": ["ts-jest", { isolatedModules: true, useESM: true }],
   },
