@@ -70,24 +70,10 @@ export default class App {
     return new App(port);
   }
 
-  public __testInitializePlugins() {
+  get __app() {
     if (process.env.NODE_ENV !== "test")
       throw new Error("This method is only available in the test environment");
 
-    this.initializePlugins();
-  }
-
-  public __testInitDatabase() {
-    if (process.env.NODE_ENV !== "test")
-      throw new Error("This method is only available in the test environment");
-
-    this.initDatabase();
-  }
-
-  public __testInitRoutes() {
-    if (process.env.NODE_ENV !== "test")
-      throw new Error("This method is only available in the test environment");
-
-    this.initRoutes();
+    return this.APP;
   }
 }
