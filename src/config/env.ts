@@ -80,7 +80,7 @@ const databaseEnv = {
   ),
   SEQUELIZE_HOST: getEnv("SEQUELIZE_HOST", "127.0.0.1"),
   SEQUELIZE_PORT: Number(getEnv("SEQUELIZE_PORT", 5432)),
-  SEQUELIZE_DATABASE: getEnv("SEQUELIZE_DATABASE", "expresso"),
+  SEQUELIZE_DATABASE: getEnv("SEQUELIZE_DATABASE", "ebelize"),
   SEQUELIZE_USERNAME: getEnv("SEQUELIZE_USERNAME", "postgres"),
   SEQUELIZE_PASSWORD: getEnv("SEQUELIZE_PASSWORD", "postgres"),
   SEQUELIZE_SYNC: parseBoolean(getEnv("SEQUELIZE_SYNC", false)),
