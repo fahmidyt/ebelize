@@ -67,11 +67,12 @@ export default class App {
         await db.sequelize.sync();
         console.app.info("Database synced successfully!");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.app.error(
-        `Unable to connect to ${dbDialect} database: ${dbName}`
+        `We couldn't connect to the ${dbDialect} database: ${dbName}. Because of the following error: ${error.message}`
       );
-      console.app.error(error);
+
+      process.exit(1);
     }
   }
 
