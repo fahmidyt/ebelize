@@ -15,8 +15,16 @@ const sequelizeOptions: SequelizeOptions = {
   models: [__dirname + "/models"],
 };
 
-const sequelize = new Sequelize(sequelizeOptions);
+function initDatabase() {
+  try {
+    const sequelize = new Sequelize(sequelizeOptions);
+    return { sequelize };
+  } catch (error: any) {
+    console.app.error("Unable to intialize sequelize:", error.message);
+    process.exit(1);
+  }
+}
 
-const db = { sequelize };
+const db = initDatabase();
 
 export default db;
