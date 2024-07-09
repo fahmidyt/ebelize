@@ -3,6 +3,7 @@ import type { Application } from "express";
 import { blue } from "colorette";
 import express from "express";
 import routes from "@routes/index";
+import db from "@/database";
 
 import {
   authExtractor,
@@ -17,6 +18,7 @@ import {
   urlencoded,
   userAgent,
 } from "@core/plugins";
+import { env } from "@/config/env";
 
 export default class App {
   private readonly APP: Application;
@@ -52,7 +54,26 @@ export default class App {
     this.APP.use(rateLimit);
   }
 
-  private initDatabase() {}
+  private async initDatabase() {
+    const dbDialect = blue(env.SEQUELIZE_CONNECTION);
+    const dbName = blue(env.SEQUELIZE_DATABASE);
+
+    try {
+      await db.sequelize.authenticate();
+      console.app.info(`Connected to ${dbDialect} database: ${dbName}`);
+
+      if (env.SEQUELIZE_SYNC) {
+        console.app.warn("Syncing database...");
+        await db.sequelize.sync();
+        console.app.info("Database synced successfully!");
+      }
+    } catch (error) {
+      console.app.error(
+        `Unable to connect to ${dbDialect} database: ${dbName}`
+      );
+      console.app.error(error);
+    }
+  }
 
   private initRoutes() {
     this.APP.use(routes);
@@ -68,6 +89,13 @@ export default class App {
 
   public static create(port?: number) {
     return new App(port);
+  }
+
+  public async __initDatabase() {
+    if (process.env.NODE_ENV !== "test")
+      throw new Error("This method is only available in the test environment");
+
+    return this.initDatabase();
   }
 
   get __app() {
