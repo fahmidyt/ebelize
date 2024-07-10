@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    // Enable latest features
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
+
+    // Bundler mode
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "useDefineForClassFields": true,
+
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Sequelize-typescript requires these flags
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    // absolute paths
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@app/*": ["src/app/*"],
+      "@utils/*": ["src/utils/*"],
+      "@config/*": ["src/config/*"],
+      "@databases/*": ["src/databases/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@routes/*": ["src/routes/*"],
+      "@scripts/*": ["src/scripts/*"]
+    },
+
+    // type root
+    "typeRoots": ["src/@types", "node_modules/@types"]
+  }
+}
